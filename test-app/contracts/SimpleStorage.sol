@@ -5,9 +5,15 @@ contract SimpleStorage {
 
     uint public storedData;
 
-    function set(uint x) public {
+    function set(uint x)
+    public {
         storedData = x;
-
         emit StorageSet("Data stored successfully!", x);
+    }
+
+    function delta(uint diff)
+    public
+    returns (uint) {
+        return storedData - diff;
     }
 }
