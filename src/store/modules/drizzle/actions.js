@@ -13,10 +13,35 @@ export const REGISTER_CONTRACT = ({ commit, dispatch, rootState }, payload) => {
   }
 }
 
-const getCacheKey = (drizzleInstance, contractName, method, methodArgs) =>
-  drizzleInstance.contracts[contractName].methods[method].cacheCall(
-    ...methodArgs
+const getCacheKey = (drizzleInstance, contractName, method, methodArgs) => {
+  methodArgs = [...methodArgs]
+  method = methodArgs.length ? `${method}(uint256)` : method
+  console.group('getCacheKey')
+  console.log('di', drizzleInstance)
+  console.log('contractName', contractName)
+  console.log('method', method)
+  console.log('methodArgs', methodArgs)
+  const displayArgs = [...methodArgs].join(',')
+  console.log(
+    `drizzleInstance.contracts[${contractName}].methods[${method}].cacheCall(${displayArgs})`
   )
+  const { methods } = drizzleInstance.contracts[contractName]
+  console.log('methods...', Object.keys(methods))
+
+  console.groupEnd()
+  let cacheKey = '0x0'
+
+  try {
+    cacheKey = drizzleInstance.contracts[contractName].methods[
+      method
+    ].cacheCall(...methodArgs)
+  } catch (e) {
+    console.log('OOPS', e)
+    console.log('di', drizzleInstance)
+  }
+
+  return cacheKey
+}
 
 // get cacheKey for all contracts/methods
 export const PROCESS_REGISTRATION_Q = ({
