@@ -5,6 +5,12 @@
       method="storedData"
       label="Value"
     />
+    <!-- <drizzle-contract
+       -   contractName="SimpleStorage"
+       -   method="delta"
+       -   label="Value"
+       -   :methodArgs="[1]"
+       - /> -->
     <drizzle-contract-form
       contractName="SimpleStorage"
       method="set"
