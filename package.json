@@ -21,7 +21,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:bundle": "vue-cli-service build --target lib --name DrizzleVue ./src/DrizzleVuePlugin.js",
+    "build:bundle": "vue-cli-service build --watch --target lib --name DrizzleVue ./src/DrizzleVuePlugin.js",
     "lint": "vue-cli-service lint"
   },
   "main": "./dist/DrizzleVue.common.js",
