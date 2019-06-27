@@ -14,8 +14,14 @@ export const REGISTER_CONTRACT = ({ commit, dispatch, rootState }, payload) => {
 }
 
 const getCacheKey = (drizzleInstance, contractName, method, methodArgs) => {
-  methodArgs = [...methodArgs]
-  method = methodArgs.length ? `${method}(uint256)` : method
+  if (methodArgs.length > 0) {
+    const { utils } = drizzleInstance.web3
+    methodArgs = methodArgs.map(arg => {
+      console.log(arg, typeof arg)
+      return utils.toBN(arg)
+    })
+  }
+  console.log('methodArgs::', methodArgs)
   console.group('getCacheKey')
   console.log('di', drizzleInstance)
   console.log('contractName', contractName)
@@ -32,6 +38,7 @@ const getCacheKey = (drizzleInstance, contractName, method, methodArgs) => {
   let cacheKey = '0x0'
 
   try {
+    console.log('calling with methodArgs', methodArgs)
     cacheKey = drizzleInstance.contracts[contractName].methods[
       method
     ].cacheCall(...methodArgs)
@@ -39,6 +46,10 @@ const getCacheKey = (drizzleInstance, contractName, method, methodArgs) => {
     console.log('OOPS', e)
     console.log('di', drizzleInstance)
   }
+
+  console.log(
+    `cachekey:${contractName} - ${method} (${displayArgs}) = ${cacheKey}`
+  )
 
   return cacheKey
 }
