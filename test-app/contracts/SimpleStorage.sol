@@ -13,6 +13,7 @@ contract SimpleStorage {
 
     function delta(uint diff)
     public
+    view
     returns (uint) {
         return storedData - diff;
     }
